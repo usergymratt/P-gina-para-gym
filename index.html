@@ -1,0 +1,1310 @@
+```html
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powerclub | Tu mejor versión comienza aquí</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Library for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#E60000',
+                            redHover: '#cc0000',
+                            dark: '#050505',
+                            gray: '#111111',
+                            lightGray: '#1a1a1a',
+                            border: '#2a2a2a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop')",
+                        'app-pattern': "linear-gradient(to right, rgba(5, 5, 5, 1), rgba(5, 5, 5, 0.4)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop')",
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'marquee': 'marquee 20s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos Core */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E60000; }
+
+        /* Efectos Glassmorphism Modernos */
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Formularios ACTUALIZADOS (Más llamativos y sin error blanco) */
+        .input-gym {
+            @apply w-full bg-[#1a0505] border border-brand-red/40 text-white px-4 py-3.5 rounded-xl focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red focus:shadow-[0_0_15px_rgba(230,0,0,0.3)] transition-all duration-300;
+            color-scheme: dark; /* Fuerza calendarios y barras nativas a ser oscuras */
+        }
+        
+        .label-gym {
+            @apply block text-xs font-bold text-gray-400 mb-1.5 uppercase tracking-wider;
+        }
+
+        /* Solución: Prevenir que el autocompletado del navegador ponga fondo blanco */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            -webkit-text-fill-color: white !important;
+            -webkit-box-shadow: 0 0 0px 1000px #1a0505 inset !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        select option {
+            background-color: #0a0a0a;
+            color: white;
+        }
+
+        /* Animaciones Personalizadas */
+        .text-slant {
+            transform: skewX(-8deg);
+            display: inline-block;
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.8) 60%, rgba(5,5,5,1) 100%);
+        }
+
+        /* Audio Equalizer Animación */
+        .bar {
+            width: 3px; height: 12px; background: white; margin: 0 1px; border-radius: 2px;
+            animation: equalize 1s infinite;
+        }
+        .playing .bar:nth-child(1) { animation-delay: -0.2s; }
+        .playing .bar:nth-child(2) { animation-delay: -0.4s; }
+        .playing .bar:nth-child(3) { animation-delay: -0.6s; }
+        .playing .bar:nth-child(4) { animation-delay: -0.8s; }
+        .paused .bar { animation: none; height: 3px; }
+        @keyframes equalize { 0%, 100% { height: 4px; } 50% { height: 16px; } }
+
+        /* 3D Card Hover */
+        .plan-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(230, 0, 0, 0.15);
+            border-color: rgba(230,0,0,0.5);
+        }
+        
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Audio Player Oculto -->
+    <!-- Se usa un beat royalty free para dar el "Gym Vibe" -->
+    <audio id="gymAudio" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-hip-hop-02-738.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Top Bar Urgencia (Ventas) ARREGLADA: No más superposición -->
+    <div class="bg-brand-red overflow-hidden relative py-2 flex whitespace-nowrap">
+        <!-- Primer bloque animado -->
+        <div class="animate-marquee flex items-center flex-shrink-0 w-max">
+            <span class="mx-4 text-xs md:text-sm font-black uppercase text-white tracking-widest">🔥 OFERTA RELÁMPAGO: MATRÍCULA $0</span>
+            <span class="text-white opacity-50">•</span>
+            <span class="mx-4 text-xs md:text-sm font-black uppercase text-white tracking-widest">Termina en: <span id="countdown" class="bg-black text-white px-2 py-0.5 rounded mx-1">00:00:00</span></span>
+            <span class="text-white opacity-50">•</span>
+            <span class="mx-4 text-xs md:text-sm font-black uppercase text-white tracking-widest">CUPOS LIMITADOS</span>
+            <span class="text-white opacity-50">•</span>
+        </div>
+        <!-- Segundo bloque animado (clon perfecto para el bucle infinito) -->
+        <div class="animate-marquee flex items-center flex-shrink-0 w-max" aria-hidden="true">
+            <span class="mx-4 text-xs md:text-sm font-black uppercase text-white tracking-widest">🔥 OFERTA RELÁMPAGO: MATRÍCULA $0</span>
+            <span class="text-white opacity-50">•</span>
+            <span class="mx-4 text-xs md:text-sm font-black uppercase text-white tracking-widest">Termina en: <span id="countdown2" class="bg-black text-white px-2 py-0.5 rounded mx-1">00:00:00</span></span>
+            <span class="text-white opacity-50">•</span>
+            <span class="mx-4 text-xs md:text-sm font-black uppercase text-white tracking-widest">CUPOS LIMITADOS</span>
+            <span class="text-white opacity-50">•</span>
+        </div>
+    </div>
+
+    <!-- Navegación -->
+    <nav id="navbar" class="fixed w-full z-40 transition-all duration-300 bg-transparent py-5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="window.scrollTo(0,0)">
+                    <i class="fas fa-bolt text-brand-red text-3xl mr-2 group-hover:animate-pulse"></i>
+                    <span class="font-black text-2xl tracking-tighter text-white">POWER<span class="text-brand-red">CLUB</span></span>
+                </div>
+                
+                <!-- Links Desktop -->
+                <div class="hidden md:flex space-x-8 items-center bg-white/5 px-6 py-2 rounded-full border border-white/10 backdrop-blur-sm">
+                    <a href="#beneficios" class="text-xs font-bold text-gray-300 hover:text-white uppercase tracking-widest transition">Nosotros</a>
+                    <a href="#planes" class="text-xs font-bold text-gray-300 hover:text-white uppercase tracking-widest transition">Membresías</a>
+                    <a href="#clases" class="text-xs font-bold text-gray-300 hover:text-white uppercase tracking-widest transition">Clases</a>
+                </div>
+
+                <!-- Botones Desktop -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="openAuthModal('login')" class="text-sm font-bold text-gray-300 hover:text-white transition">Socio</button>
+                    <button onclick="openAuthModal('register')" class="bg-white text-black hover:bg-brand-red hover:text-white px-7 py-2.5 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(230,0,0,0.5)]">
+                        Únete
+                    </button>
+                </div>
+
+                <!-- Botón Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-brand-red focus:outline-none text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden glass-nav absolute w-full top-full left-0 shadow-2xl">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#beneficios" class="block px-3 py-3 text-sm font-bold uppercase tracking-wider text-white hover:text-brand-red border-b border-white/5">Nosotros</a>
+                <a href="#planes" class="block px-3 py-3 text-sm font-bold uppercase tracking-wider text-white hover:text-brand-red border-b border-white/5">Membresías</a>
+                <a href="#clases" class="block px-3 py-3 text-sm font-bold uppercase tracking-wider text-white hover:text-brand-red border-b border-white/5">Clases</a>
+                <div class="pt-6 flex flex-col space-y-3">
+                    <button onclick="openAuthModal('login')" class="w-full text-center border border-white/20 text-white px-4 py-3 rounded-xl font-bold uppercase text-sm tracking-wider">Soy Socio</button>
+                    <button onclick="openAuthModal('register')" class="w-full bg-brand-red text-white px-4 py-3 rounded-xl font-black uppercase text-sm tracking-wider shadow-lg shadow-red-500/30">Inscribirme Ahora</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Hero Dinámico -->
+    <header class="relative w-full h-[100svh] min-h-[700px] flex items-center justify-center overflow-hidden">
+        <!-- Fondo Animado CSS + Imagen -->
+        <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-fixed transform scale-105 transition-transform duration-[20s] ease-out hover:scale-100"></div>
+        
+        <!-- Gradientes Animados Decorativos -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-40 mix-blend-screen pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-red rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+            <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-orange-600 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
+        </div>
+        
+        <div class="absolute inset-0 hero-overlay z-0"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-6xl mx-auto mt-10" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md mb-6">
+                <span class="text-brand-red font-bold text-xs uppercase tracking-[0.3em]"><i class="fas fa-circle text-[8px] animate-pulse text-brand-red mr-2"></i>Nueva Sede VIP Abierta</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl lg:text-[7rem] font-black text-white uppercase tracking-tighter leading-[0.9] mb-6">
+                Despierta a la <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-red-500 to-orange-500 text-slant">Bestia</span>
+            </h1>
+            
+            <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+                Resultados reales. Máquinas de élite. Una comunidad que no acepta excusas. Únete a la cadena de gimnasios más grande del país.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <button onclick="openAuthModal('register')" class="w-full sm:w-auto bg-brand-red hover:bg-brand-redHover text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-widest transition-all duration-300 transform hover:scale-105 shadow-[0_0_30px_rgba(230,0,0,0.5)] flex items-center justify-center group">
+                    Comenzar Ahora <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <a href="#planes" class="w-full sm:w-auto glass-panel hover:bg-white hover:text-black text-white px-12 py-5 rounded-full font-bold text-lg uppercase tracking-widest transition-all duration-300">
+                    Ver Precios
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll indicator animado -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce z-10">
+            <span class="text-[10px] uppercase tracking-widest text-gray-400 mb-2 font-bold">Desliza</span>
+            <div class="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center p-1">
+                <div class="w-1 h-2 bg-brand-red rounded-full animate-pulse"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Social Proof / Estadísticas Animadas -->
+    <div id="beneficios" class="border-y border-white/10 bg-[#0a0a0a] relative z-20">
+        <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/5">
+            <div data-aos="fade-up" data-aos-delay="0">
+                <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter"><span class="counter" data-target="65">0</span>+</h3>
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Sedes Premium</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+                <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter"><span class="counter" data-target="24">0</span>/7</h3>
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Acceso Total</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter"><span class="counter" data-target="300">0</span>K+</h3>
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Socios Activos</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="300">
+                <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter">100%</h3>
+                <p class="text-xs font-bold uppercase tracking-widest text-brand-red mt-2 animate-pulse">Resultados</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Planes (Optimizada para Venta) -->
+    <section id="planes" class="py-32 bg-brand-dark relative">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-red/5 via-brand-dark to-brand-dark pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-black uppercase mb-4 tracking-tighter">Tu inversión. <span class="text-brand-red text-slant block md:inline mt-2 md:mt-0">Tu cuerpo.</span></h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Selecciona el plan que mejor se adapte a ti. Sin contratos engañosos, cancela cuando quieras.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+                <!-- Plan Classic -->
+                <div class="glass-panel rounded-3xl p-8 plan-card flex flex-col h-full" data-aos="fade-right">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-black uppercase mb-2">Plan Classic</h3>
+                        <p class="text-gray-400 text-sm">Entrena en una sola sede.</p>
+                    </div>
+                    <div class="mb-8">
+                        <span class="text-5xl font-black tracking-tighter">$69.900</span>
+                        <span class="text-gray-500 font-bold text-sm">/mes</span>
+                    </div>
+                    <ul class="space-y-4 mb-10 text-sm font-semibold text-gray-300 flex-1">
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3"></i> <span>Acceso a 1 sede local</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3"></i> <span>Zonas de cardio y pesas</span></li>
+                        <li class="flex items-start text-gray-600"><i class="fas fa-times mt-1 mr-3"></i> <span>Clases grupales</span></li>
+                        <li class="flex items-start text-gray-600"><i class="fas fa-times mt-1 mr-3"></i> <span>Sillones de masaje</span></li>
+                    </ul>
+                    <button onclick="openAuthModal('register', 'classic')" class="w-full bg-transparent border border-gray-600 hover:border-white hover:bg-white hover:text-black text-white font-black py-4 rounded-xl uppercase tracking-widest transition-all">Seleccionar</button>
+                </div>
+
+                <!-- Plan Black (Hero Card) -->
+                <div class="relative bg-gradient-to-b from-[#1a0a0a] to-[#0a0000] border border-brand-red rounded-3xl p-10 transform md:-translate-y-6 shadow-[0_0_50px_rgba(230,0,0,0.15)] flex flex-col h-[105%]" data-aos="fade-up" style="z-index: 10;">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-brand-red text-white px-6 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg shadow-red-500/50">
+                        Mejor Valor
+                    </div>
+                    <div class="mb-8 text-center mt-2">
+                        <h3 class="text-3xl font-black uppercase mb-2 text-brand-red">Plan Black</h3>
+                        <p class="text-gray-400 text-sm">La experiencia completa sin límites.</p>
+                    </div>
+                    <div class="mb-8 text-center">
+                        <span class="text-6xl font-black tracking-tighter text-white">$89.900</span>
+                        <span class="text-gray-500 font-bold text-sm">/mes</span>
+                    </div>
+                    <ul class="space-y-5 mb-10 text-sm font-bold text-gray-200 flex-1">
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3 text-lg"></i> <span>Acceso a <strong>TODAS</strong> las sedes</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3 text-lg"></i> <span>Clases grupales ilimitadas</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3 text-lg"></i> <span>Sillas de masajes SPA</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3 text-lg"></i> <span>Invita a 5 amigos gratis/mes</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3 text-lg"></i> <span>Camiseta Powerclub exclusiva</span></li>
+                    </ul>
+                    <button onclick="openAuthModal('register', 'black')" class="w-full bg-brand-red hover:bg-brand-redHover text-white font-black py-5 rounded-xl uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(230,0,0,0.3)] hover:shadow-[0_15px_30px_rgba(230,0,0,0.5)] transform hover:-translate-y-1">Obtener Plan Black</button>
+                </div>
+
+                <!-- Plan Anual -->
+                <div class="glass-panel rounded-3xl p-8 plan-card flex flex-col h-full" data-aos="fade-left">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-black uppercase mb-2">Pase Anual</h3>
+                        <p class="text-gray-400 text-sm">Paga anticipado, entrena gratis 2 meses.</p>
+                    </div>
+                    <div class="mb-8">
+                        <span class="text-5xl font-black tracking-tighter">$850.000</span>
+                        <span class="text-gray-500 font-bold text-sm">/año</span>
+                    </div>
+                    <ul class="space-y-4 mb-10 text-sm font-semibold text-gray-300 flex-1">
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3"></i> <span>Beneficios del Plan Black</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3"></i> <span><strong>Ahorras $228.800</strong> al año</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3"></i> <span>Congela tu plan hasta 30 días</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-brand-red mt-1 mr-3"></i> <span>Sin cobro de mantenimiento</span></li>
+                    </ul>
+                    <button onclick="openAuthModal('register', 'annual')" class="w-full bg-transparent border border-gray-600 hover:border-white hover:bg-white hover:text-black text-white font-black py-4 rounded-xl uppercase tracking-widest transition-all">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zonas e Instalaciones Interactivas -->
+    <section class="py-24 bg-[#0a0a0a] border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16 text-center" data-aos="fade-up">
+                <h2 class="text-5xl font-black uppercase mb-4 tracking-tighter">Equipamiento <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-orange-500 text-slant block md:inline">Premium</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">No escatimamos en calidad. Nuestras sedes están equipadas con tecnología biomecánica de punta.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[600px] md:h-[400px]">
+                <!-- Item 1 -->
+                <div class="relative group overflow-hidden rounded-2xl h-full lg:col-span-2 cursor-pointer" data-aos="zoom-in" data-aos-delay="0">
+                    <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8 opacity-90 group-hover:opacity-100 transition-opacity">
+                        <h3 class="text-3xl font-black uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform">Musculación Libre</h3>
+                        <div class="w-10 h-1 bg-brand-red mb-4 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+                        <p class="text-gray-300 text-sm font-medium opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100">Rack de mancuernas hasta 50kg, jaulas de potencia y bancos olímpicos.</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="relative group overflow-hidden rounded-2xl h-full cursor-pointer" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-black uppercase mb-1">Zona Funcional</h3>
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Cross Training</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="relative group overflow-hidden rounded-2xl h-full cursor-pointer" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-black uppercase mb-1">Cardio Tech</h3>
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Pantallas y Netflix</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Herramientas y Experiencia (Calculadora IMC + Clases) -->
+    <section id="imc" class="py-24 bg-brand-dark relative overflow-hidden">
+        <!-- Decoración bg -->
+        <div class="absolute right-0 top-1/2 transform translate-x-1/3 -translate-y-1/2 text-[30rem] font-black text-white/[0.02] leading-none select-none pointer-events-none">POWER</div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-20 relative z-10">
+            
+            <!-- Calculadora IMC Glassmorphism -->
+            <div class="glass-panel p-10 rounded-3xl shadow-2xl relative" data-aos="fade-right">
+                <div class="absolute -top-5 -left-5 w-20 h-20 bg-brand-red rounded-full mix-blend-screen filter blur-[40px] opacity-50"></div>
+                
+                <h2 class="text-4xl font-black uppercase mb-2 tracking-tighter">Conoce tus <span class="text-brand-red">Métricas</span></h2>
+                <p class="text-gray-400 text-sm mb-8 font-medium">Calcula tu Índice de Masa Corporal al instante y recibe una recomendación de entrenamiento por IA.</p>
+                
+                <div class="space-y-5">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="label-gym">Peso (kg)</label>
+                            <input type="number" id="imc-peso" placeholder="Ej: 75" class="input-gym bg-black/40 border-white/10" min="30" max="300">
+                        </div>
+                        <div>
+                            <label class="label-gym">Altura (cm)</label>
+                            <input type="number" id="imc-altura" placeholder="Ej: 175" class="input-gym bg-black/40 border-white/10" min="100" max="250">
+                        </div>
+                    </div>
+                    <button onclick="calcularIMC()" class="w-full bg-white hover:bg-gray-200 text-black font-black py-4 rounded-xl uppercase tracking-widest transition-all transform hover:scale-[1.02]">
+                        Generar Diagnóstico
+                    </button>
+                </div>
+
+                <!-- Resultado IMC -->
+                <div id="imc-resultado" class="mt-8 hidden">
+                    <div class="p-6 bg-black/60 rounded-2xl border border-white/10 text-center relative overflow-hidden">
+                        <div id="imc-glow" class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50"></div>
+                        <span class="block text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">Tu Resultado Oficial</span>
+                        <div class="flex items-baseline justify-center space-x-3">
+                            <span id="imc-valor" class="text-6xl font-black text-white tracking-tighter"></span>
+                            <span id="imc-categoria" class="text-lg font-black uppercase tracking-wider"></span>
+                        </div>
+                        <p id="imc-mensaje" class="mt-4 text-sm text-gray-300 leading-relaxed font-medium"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horarios Dinámicos -->
+            <div id="clases" class="flex flex-col justify-center" data-aos="fade-left">
+                <h2 class="text-4xl font-black uppercase mb-8 tracking-tighter">Clases <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-orange-500 text-slant">Grupales</span></h2>
+                
+                <!-- Pestañas -->
+                <div class="flex overflow-x-auto space-x-4 mb-8 pb-4 scrollbar-hide border-b border-white/10">
+                    <button onclick="cambiarDia('lunes')" class="dia-btn active text-white border-b-2 border-brand-red font-black px-2 pb-2 uppercase tracking-wider whitespace-nowrap transition">Lunes</button>
+                    <button onclick="cambiarDia('martes')" class="dia-btn text-gray-600 font-bold hover:text-gray-300 px-2 pb-2 uppercase tracking-wider whitespace-nowrap transition">Martes</button>
+                    <button onclick="cambiarDia('miercoles')" class="dia-btn text-gray-600 font-bold hover:text-gray-300 px-2 pb-2 uppercase tracking-wider whitespace-nowrap transition">Miérc.</button>
+                    <button onclick="cambiarDia('jueves')" class="dia-btn text-gray-600 font-bold hover:text-gray-300 px-2 pb-2 uppercase tracking-wider whitespace-nowrap transition">Jueves</button>
+                    <button onclick="cambiarDia('viernes')" class="dia-btn text-gray-600 font-bold hover:text-gray-300 px-2 pb-2 uppercase tracking-wider whitespace-nowrap transition">Viernes</button>
+                </div>
+
+                <!-- Lista -->
+                <div id="lista-clases" class="space-y-4">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- App Promo Banner Full Width -->
+    <section class="bg-app-pattern bg-cover bg-center py-32 relative border-y border-brand-red/30">
+        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2" data-aos="fade-right">
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-mobile-alt text-brand-red text-2xl"></i>
+                    <span class="text-brand-red font-black uppercase tracking-widest text-sm">App Exclusiva</span>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black uppercase mb-6 leading-[0.9] tracking-tighter">Lleva el control<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">en tu mano</span></h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-md font-medium leading-relaxed">Código QR para ingresar, reserva de clases a un clic, rutinas en video 3D y seguimiento de tus métricas corporales.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-white text-black flex items-center px-8 py-4 rounded-xl font-bold hover:bg-gray-200 transition transform hover:-translate-y-1">
+                        <i class="fab fa-apple text-3xl mr-3"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] leading-none uppercase font-bold text-gray-600">Descargar en</div>
+                            <div class="text-base font-black tracking-tight">App Store</div>
+                        </div>
+                    </button>
+                    <button class="bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition transform hover:-translate-y-1">
+                        <i class="fab fa-google-play text-2xl mr-3"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] leading-none uppercase font-bold text-gray-400">Disponible en</div>
+                            <div class="text-base font-black tracking-tight">Google Play</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Testimonios (Clave para Ventas) -->
+    <section class="py-24 bg-[#050505]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">La comunidad <span class="text-brand-red">habla</span></h2>
+                <div class="flex justify-center space-x-1 text-brand-red text-xl">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonio 1 -->
+                <div class="glass-panel p-8 rounded-2xl relative" data-aos="fade-up" data-aos-delay="0">
+                    <i class="fas fa-quote-right absolute top-6 right-6 text-4xl text-white/5"></i>
+                    <p class="text-gray-300 italic mb-6 relative z-10">"Estuve en otros gimnasios de cadena y la maquinaria aquí no tiene comparación. El ambiente te empuja a dar más en cada serie."</p>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-brand-red">
+                        <div>
+                            <h4 class="font-black text-white uppercase tracking-wider text-sm">Andrés Gómez</h4>
+                            <p class="text-xs text-brand-red font-bold">Plan Black</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 2 -->
+                <div class="glass-panel p-8 rounded-2xl relative border-brand-red/30 bg-brand-red/5" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-quote-right absolute top-6 right-6 text-4xl text-brand-red/10"></i>
+                    <p class="text-white font-medium italic mb-6 relative z-10">"Las clases de Spinning en la sede norte son increíbles. Los profesores tienen una energía brutal. Me inscribí online en 2 minutos."</p>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-brand-red">
+                        <div>
+                            <h4 class="font-black text-white uppercase tracking-wider text-sm">Laura Martínez</h4>
+                            <p class="text-xs text-brand-red font-bold">Pase Anual</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 3 -->
+                <div class="glass-panel p-8 rounded-2xl relative" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-quote-right absolute top-6 right-6 text-4xl text-white/5"></i>
+                    <p class="text-gray-300 italic mb-6 relative z-10">"Nunca hay filas interminables para las máquinas. La app funciona perfecto para entrar con QR. Vale cada centavo."</p>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-brand-red">
+                        <div>
+                            <h4 class="font-black text-white uppercase tracking-wider text-sm">Diego Ruiz</h4>
+                            <p class="text-xs text-brand-red font-bold">Plan Black</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Moderno -->
+    <footer class="bg-black pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+                <!-- Marca -->
+                <div class="md:col-span-4">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-bolt text-brand-red text-3xl mr-2"></i>
+                        <span class="font-black text-3xl tracking-tighter text-white">POWER<span class="text-brand-red">CLUB</span></span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-8 font-medium leading-relaxed max-w-sm">Elevando el estándar del fitness. Entrena con equipos profesionales, en instalaciones premium y sin contratos amarrados.</p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-red hover:border-brand-red transition-all"><i class="fab fa-instagram text-lg"></i></a>
+                        <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-red hover:border-brand-red transition-all"><i class="fab fa-tiktok text-lg"></i></a>
+                        <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-red hover:border-brand-red transition-all"><i class="fab fa-youtube text-lg"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div class="md:col-span-2 md:col-start-6">
+                    <h4 class="text-white font-black uppercase mb-6 tracking-widest text-xs">Empresa</h4>
+                    <ul class="space-y-4 text-sm text-gray-500 font-semibold">
+                        <li><a href="#" class="hover:text-brand-red transition">Nosotros</a></li>
+                        <li><a href="#" class="hover:text-brand-red transition">Nuestras Sedes</a></li>
+                        <li><a href="#" class="hover:text-brand-red transition">Franquicias</a></li>
+                        <li><a href="#" class="hover:text-brand-red transition">Trabaja Aquí</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div class="md:col-span-2">
+                    <h4 class="text-white font-black uppercase mb-6 tracking-widest text-xs">Soporte</h4>
+                    <ul class="space-y-4 text-sm text-gray-500 font-semibold">
+                        <li><a href="#" class="hover:text-brand-red transition">Portal de Socio</a></li>
+                        <li><a href="#" class="hover:text-brand-red transition">Congelar Plan</a></li>
+                        <li><a href="#" class="hover:text-brand-red transition">Reglamento</a></li>
+                        <li><a href="#" class="hover:text-brand-red transition">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="md:col-span-3">
+                    <h4 class="text-white font-black uppercase mb-6 tracking-widest text-xs">Newsletter Exclusivo</h4>
+                    <p class="text-sm text-gray-500 mb-4 font-medium">Rutinas gratis y ofertas flash directo a tu correo.</p>
+                    <form class="relative group" onsubmit="event.preventDefault(); alert('¡Estás en la lista VIP!');">
+                        <input type="email" placeholder="Correo electrónico..." class="w-full bg-[#111] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-brand-red transition" required>
+                        <button type="submit" class="absolute right-2 top-2 bottom-2 bg-brand-red hover:bg-brand-redHover px-5 rounded-lg text-white font-bold transition">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-bold tracking-wider text-gray-600 uppercase">
+                <p class="mb-4 md:mb-0">&copy; 2026 Powerclub Fitness. Creado para dominar.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-gray-300 transition">Privacidad</a>
+                    <a href="#" class="hover:text-gray-300 transition">Términos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Controles Flotantes (UI Moderno) -->
+    
+    <!-- Audio Player Toggle -->
+    <button id="audio-toggle" class="fixed bottom-6 left-6 w-14 h-14 bg-black/80 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white shadow-2xl z-40 hover:scale-110 hover:border-brand-red transition-all group paused">
+        <div class="flex items-end justify-center h-4 space-x-1 relative">
+            <i class="fas fa-music absolute -top-8 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </button>
+
+    <!-- WhatsApp Flotante (Sales optimized) -->
+    <a href="https://wa.me/1234567890" target="_blank" class="fixed bottom-6 right-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-[0_10px_20px_rgba(37,211,102,0.3)] hover:scale-110 hover:shadow-[0_10px_30px_rgba(37,211,102,0.5)] transition-all z-40">
+        <i class="fab fa-whatsapp"></i>
+        <span class="absolute -top-3 -right-3 bg-brand-red text-white text-[9px] font-black px-2 py-1 rounded-full animate-pulse border-2 border-black">1</span>
+    </a>
+
+    <!-- Sticky Mobile CTA -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full glass-nav p-4 z-30 border-t border-white/10 flex justify-center transform translate-y-full transition-transform duration-500" id="sticky-cta">
+        <button onclick="openAuthModal('register')" class="w-full max-w-sm bg-brand-red text-white font-black py-4 rounded-xl uppercase tracking-widest shadow-lg shadow-red-500/50 text-sm">
+            Inscríbete Ahora
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL DE AUTENTICACIÓN / REGISTRO PRO      -->
+    <!-- ========================================== -->
+    <!-- Mismo flujo lógico, UI mejorada con glassmorphism -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 bg-black/90 backdrop-blur-md flex justify-center items-center py-4 px-2 sm:px-4">
+        
+        <div class="bg-[#0a0a0a] w-full max-w-5xl h-[95vh] md:h-[700px] rounded-3xl shadow-2xl flex flex-col md:flex-row relative overflow-hidden border border-white/10">
+            <!-- Botón Cerrar -->
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-gray-400 hover:text-white hover:bg-brand-red hover:border-brand-red z-30 transition-all">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+            
+            <!-- Lado Izquierdo (Imagen Visual Venta) -->
+            <div class="hidden md:block md:w-5/12 relative">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop');"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent flex flex-col justify-end p-10">
+                    <div class="mb-4 inline-block bg-brand-red px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest text-white">Paso al éxito</div>
+                    <h3 class="text-4xl font-black text-white uppercase mb-2 tracking-tighter leading-none">Tu momento <br>es ahora</h3>
+                    <p class="text-gray-300 text-sm font-medium mt-4">Estás a 3 minutos de pertenecer al club más exclusivo. Completa tus datos de forma segura.</p>
+                </div>
+            </div>
+
+            <!-- Lado Derecho: Formularios Glass -->
+            <div class="w-full md:w-7/12 flex flex-col h-full bg-[#0a0a0a] overflow-y-auto relative">
+                <!-- Decoración -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-red rounded-full mix-blend-screen filter blur-[100px] opacity-10 pointer-events-none"></div>
+
+                <!-- Tabs -->
+                <div id="auth-tabs" class="flex border-b border-white/10 sticky top-0 bg-[#0a0a0a]/90 backdrop-blur-md z-20">
+                    <button onclick="setAuthTab('login')" id="tab-login" class="w-1/2 py-6 text-center font-bold text-gray-500 border-b-2 border-transparent hover:text-gray-300 transition uppercase text-xs tracking-widest">Soy Socio</button>
+                    <button onclick="setAuthTab('register')" id="tab-register" class="w-1/2 py-6 text-center font-bold text-brand-red border-b-2 border-brand-red transition uppercase text-xs tracking-widest">Inscribirme</button>
+                </div>
+
+                <!-- Contenedor -->
+                <div class="flex-1 p-6 md:p-12 relative z-10">
+
+                    <!-- FORM LOGIN -->
+                    <div id="view-login" class="hidden h-full flex flex-col justify-center fade-in">
+                        <div class="mb-10 text-center">
+                            <h2 class="text-4xl font-black uppercase text-white tracking-tighter">Bienvenido</h2>
+                            <p class="text-gray-400 text-sm mt-2 font-medium">Ingresa para reservar clases o ver tu plan.</p>
+                        </div>
+                        <form onsubmit="handleLogin(event)" class="space-y-6">
+                            <div>
+                                <label class="label-gym">Documento de Identidad</label>
+                                <div class="relative">
+                                    <i class="far fa-id-card absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                    <input type="number" required placeholder="Ej: 10203040" class="input-gym pl-12">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <label class="label-gym !mb-0">Contraseña</label>
+                                    <a href="#" class="text-[10px] text-gray-400 hover:text-brand-red font-bold uppercase tracking-wider transition">¿Olvidaste la clave?</a>
+                                </div>
+                                <div class="relative">
+                                    <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                    <input type="password" id="login-pwd" required placeholder="••••••••" class="input-gym pl-12">
+                                    <button type="button" onclick="togglePwd('login-pwd')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-brand-red hover:bg-brand-redHover text-white font-black py-4 rounded-xl uppercase tracking-widest transition-all mt-6 shadow-[0_10px_20px_rgba(230,0,0,0.3)]">
+                                Iniciar Sesión
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- FORM REGISTRO (MULTISTEP) -->
+                    <div id="view-register" class="h-full flex flex-col fade-in">
+                        
+                        <!-- Progreso -->
+                        <div class="flex items-center gap-3 mb-10">
+                            <div class="flex-1 text-center">
+                                <div id="ind-1" class="h-2 w-full bg-brand-red rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(230,0,0,0.5)]"></div>
+                                <span id="text-ind-1" class="text-[9px] font-black text-white uppercase mt-3 block tracking-widest">Tus Datos</span>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div id="ind-2" class="h-2 w-full bg-white/10 rounded-full transition-all duration-500"></div>
+                                <span id="text-ind-2" class="text-[9px] font-bold text-gray-500 uppercase mt-3 block tracking-widest">Plan</span>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div id="ind-3" class="h-2 w-full bg-white/10 rounded-full transition-all duration-500"></div>
+                                <span id="text-ind-3" class="text-[9px] font-bold text-gray-500 uppercase mt-3 block tracking-widest">Pago</span>
+                            </div>
+                        </div>
+
+                        <!-- Paso 1 -->
+                        <div id="step-1" class="step-content flex-1 fade-in">
+                            <h3 class="text-2xl font-black uppercase mb-6 text-white tracking-tighter">1. Perfil del Atleta</h3>
+                            <div class="space-y-5">
+                                <div class="grid grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="label-gym">Nombres</label>
+                                        <input type="text" id="reg-nombre" placeholder="Juan" class="input-gym" required>
+                                    </div>
+                                    <div>
+                                        <label class="label-gym">Apellidos</label>
+                                        <input type="text" id="reg-apellido" placeholder="Pérez" class="input-gym" required>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-5">
+                                    <div class="col-span-1">
+                                        <label class="label-gym">Doc.</label>
+                                        <select class="input-gym appearance-none font-bold text-gray-300">
+                                            <option>C.C.</option>
+                                            <option>C.E.</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="label-gym">Número</label>
+                                        <input type="number" id="reg-doc" placeholder="123456789" class="input-gym" required>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="label-gym">Celular</label>
+                                        <input type="number" placeholder="300 000 0000" class="input-gym" required>
+                                    </div>
+                                    <div>
+                                        <label class="label-gym">Nacimiento</label>
+                                        <input type="date" class="input-gym text-gray-400 uppercase text-xs font-bold" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="label-gym">Correo Electrónico</label>
+                                    <input type="email" id="reg-email" placeholder="juan@correo.com" class="input-gym" required>
+                                </div>
+                                <!-- Eliminé href="#" y usé type="button" para evitar recargas o bugs de validación en forms HTML5 -->
+                                <button type="button" onclick="nextStep(2)" class="w-full bg-white hover:bg-gray-200 text-black font-black py-4 rounded-xl uppercase tracking-widest transition-all mt-8 transform hover:-translate-y-1">
+                                    Siguiente Paso <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 2 -->
+                        <div id="step-2" class="step-content hidden flex-1 fade-in">
+                            <h3 class="text-2xl font-black uppercase mb-6 text-white tracking-tighter">2. Sede y Plan</h3>
+                            
+                            <label class="label-gym mb-2">Selecciona tu sede Base</label>
+                            <select id="reg-sede" class="input-gym mb-8 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_auto] bg-no-repeat bg-[position:right_1rem_center] font-bold text-gray-300">
+                                <option value="">Ciudad - Sede...</option>
+                                <option value="bgt_norte">Bogotá - Chicó VIP</option>
+                                <option value="med_poblado">Medellín - El Poblado</option>
+                                <option value="cli_oeste">Cali - Oeste</option>
+                            </select>
+
+                            <label class="label-gym mb-2">Selecciona Inversión</label>
+                            <div class="space-y-3 mb-8">
+                                <label class="block relative border border-white/10 hover:border-white/30 bg-[#111] rounded-2xl p-5 cursor-pointer transition-all select-plan-card" id="card-classic">
+                                    <input type="radio" name="plan" value="classic" class="sr-only" onchange="highlightPlan('classic')">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="block font-black text-lg text-white uppercase tracking-tight">Plan Classic</span>
+                                            <span class="text-xs text-gray-500 font-medium">Acceso sede única.</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="block font-black text-xl">$69.900</span>
+                                        </div>
+                                    </div>
+                                    <div class="check-icon hidden absolute top-1/2 transform -translate-y-1/2 right-5 text-brand-red text-xl"><i class="fas fa-check-circle"></i></div>
+                                </label>
+
+                                <label class="block relative border border-brand-red bg-brand-red/5 rounded-2xl p-5 cursor-pointer transition-all select-plan-card" id="card-black">
+                                    <input type="radio" name="plan" value="black" class="sr-only" onchange="highlightPlan('black')" checked>
+                                    <div class="absolute -top-3 left-5 bg-brand-red text-white text-[9px] font-black uppercase px-3 py-1 rounded-full shadow-lg shadow-red-500/50 tracking-widest">Recomendado</div>
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="block font-black text-lg text-brand-red uppercase tracking-tight">Plan Black</span>
+                                            <span class="text-xs text-gray-400 font-medium">Multisede + Clases + VIP.</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="block font-black text-xl text-white">$89.900</span>
+                                        </div>
+                                    </div>
+                                    <div class="check-icon absolute top-1/2 transform -translate-y-1/2 right-5 text-brand-red text-xl"><i class="fas fa-check-circle shadow-[0_0_15px_rgba(230,0,0,0.8)] rounded-full"></i></div>
+                                </label>
+
+                                 <label class="block relative border border-white/10 hover:border-white/30 bg-[#111] rounded-2xl p-5 cursor-pointer transition-all select-plan-card" id="card-annual">
+                                    <input type="radio" name="plan" value="annual" class="sr-only" onchange="highlightPlan('annual')">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="block font-black text-lg text-white uppercase tracking-tight">Pase Anual</span>
+                                            <span class="text-xs text-gray-500 font-medium">Pago único, ahorra 2 meses.</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="block font-black text-xl">$850.000</span>
+                                        </div>
+                                    </div>
+                                    <div class="check-icon hidden absolute top-1/2 transform -translate-y-1/2 right-5 text-brand-red text-xl"><i class="fas fa-check-circle"></i></div>
+                                </label>
+                            </div>
+
+                            <div class="flex gap-4 mt-auto">
+                                <button type="button" onclick="nextStep(1)" class="w-1/3 bg-[#111] border border-white/10 hover:bg-[#222] text-white font-bold py-4 rounded-xl uppercase tracking-widest text-xs transition-all">Atrás</button>
+                                <button type="button" onclick="validateStep2()" class="w-2/3 bg-white hover:bg-gray-200 text-black font-black py-4 rounded-xl uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(255,255,255,0.1)]">Pagar</button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 3 -->
+                        <div id="step-3" class="step-content hidden flex-1 fade-in">
+                            <h3 class="text-2xl font-black uppercase mb-2 text-white tracking-tighter">3. Checkout Seguro</h3>
+                            <p class="text-[10px] text-green-500 font-bold uppercase tracking-widest mb-6"><i class="fas fa-lock mr-1"></i> Encriptación SSL 256-bit.</p>
+                            
+                            <!-- Resumen Dark Glass -->
+                            <div class="bg-[#050505] p-5 rounded-2xl mb-8 border border-white/5 relative overflow-hidden">
+                                <div class="absolute right-0 top-0 w-32 h-32 bg-green-500 rounded-full mix-blend-screen filter blur-[60px] opacity-10"></div>
+                                <div class="flex justify-between text-sm mb-3 font-semibold">
+                                    <span class="text-gray-400">Matrícula Flash</span>
+                                    <div class="text-right">
+                                        <span class="line-through text-gray-600 mr-2">$50.000</span>
+                                        <span class="text-green-500 font-black">$0</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between text-sm mb-4 font-semibold">
+                                    <span class="text-gray-400">Mantenimiento Anual</span>
+                                    <div class="text-right">
+                                        <span class="text-white">$39.900</span>
+                                        <span class="block text-[9px] text-gray-500 uppercase tracking-widest">(A cobrar en mes 3)</span>
+                                    </div>
+                                </div>
+                                <div class="border-t border-white/10 my-3"></div>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span class="font-black text-white uppercase text-sm tracking-widest">Total Hoy</span>
+                                    <span id="pago-total" class="font-black text-3xl text-white tracking-tighter">$89.900</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="label-gym">Datos de Tarjeta</label>
+                                    <div class="relative">
+                                        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" class="input-gym font-mono text-lg tracking-widest" id="cc-num">
+                                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 flex space-x-1">
+                                            <i class="fab fa-cc-visa text-gray-500 text-xl"></i>
+                                            <i class="fab fa-cc-mastercard text-gray-500 text-xl"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-5">
+                                    <div>
+                                        <input type="text" placeholder="MM/AA" maxlength="5" class="input-gym font-mono text-center" id="cc-exp">
+                                    </div>
+                                    <div>
+                                        <input type="password" placeholder="CVV" maxlength="4" class="input-gym font-mono text-center">
+                                    </div>
+                                </div>
+                                <label class="flex items-start mt-4 cursor-pointer group">
+                                    <input type="checkbox" id="terms" class="mt-0.5 mr-3 accent-brand-red w-4 h-4 rounded border-gray-600 bg-black">
+                                    <span class="text-[10px] font-medium text-gray-400 leading-tight group-hover:text-gray-300 transition">Confirmo que soy mayor de edad, acepto los <span class="text-white underline">Términos</span>, políticas y autorizo el cargo automático.</span>
+                                </label>
+                            </div>
+
+                            <div class="flex gap-4 mt-8">
+                                <button type="button" onclick="nextStep(2)" class="w-1/4 bg-transparent border border-white/10 hover:bg-white/5 text-gray-400 font-bold py-4 rounded-xl uppercase transition-all flex justify-center items-center"><i class="fas fa-arrow-left"></i></button>
+                                <button type="button" onclick="processPayment()" id="btn-pay" class="w-3/4 bg-brand-red hover:bg-brand-redHover text-white font-black py-4 rounded-xl uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(230,0,0,0.4)] flex justify-center items-center">
+                                    <span>Completar Pago</span>
+                                    <i class="fas fa-circle-notch fa-spin hidden ml-3 text-lg" id="pay-spinner"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 4 (Success Pro) -->
+                        <div id="step-4" class="step-content hidden flex-1 flex flex-col items-center justify-center text-center fade-in relative">
+                            <!-- Confetti/Glow decoration -->
+                            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-900/20 via-transparent to-transparent pointer-events-none"></div>
+                            
+                            <div class="relative mb-8">
+                                <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center relative z-10 shadow-[0_0_50px_rgba(34,197,94,0.5)]">
+                                    <i class="fas fa-check text-5xl text-white"></i>
+                                </div>
+                                <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
+                            </div>
+                            
+                            <h2 class="text-4xl font-black uppercase text-white mb-2 tracking-tighter">Bienvenido a la Élite</h2>
+                            <p class="text-gray-400 mb-8 max-w-sm font-medium">Tu <strong class="text-white" id="success-plan">Plan Black</strong> está activo. Comprobante enviado a <span id="success-email" class="text-white">tu correo</span>.</p>
+                            
+                            <div class="glass-panel p-6 rounded-2xl mb-10 w-full max-w-sm relative overflow-hidden border-brand-red/30 bg-[#111]/80">
+                                <div class="absolute left-0 top-0 w-1 h-full bg-brand-red"></div>
+                                <span class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Código de Ingreso (PIN)</span>
+                                <span class="block text-5xl font-mono font-black text-white tracking-[0.2em] text-center">8492</span>
+                            </div>
+
+                            <button type="button" onclick="closeAuthModal()" class="w-full max-w-sm bg-white text-black hover:bg-gray-200 py-4 rounded-xl font-black uppercase tracking-widest transition-all transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(255,255,255,0.1)]">
+                                Ir a mi Dashboard
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AOS Script & Logic -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // 1. Iniciar Animaciones AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // 2. Lógica del Reproductor de Audio (Gym Vibe)
+        const audioBtn = document.getElementById('audio-toggle');
+        const gymAudio = document.getElementById('gymAudio');
+        let isPlaying = false;
+
+        // Bajar volumen para que no sea intrusivo
+        gymAudio.volume = 0.3; 
+
+        audioBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                gymAudio.pause();
+                audioBtn.classList.remove('playing');
+                audioBtn.classList.add('paused');
+                audioBtn.classList.remove('border-brand-red', 'bg-brand-red/20');
+            } else {
+                gymAudio.play().catch(e => console.log("Audio autoplay prevented"));
+                audioBtn.classList.add('playing');
+                audioBtn.classList.remove('paused');
+                audioBtn.classList.add('border-brand-red', 'bg-brand-red/20');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 3. Navbar y Sticky CTA Scroll Events
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const stickyCta = document.getElementById('sticky-cta');
+            
+            if (window.scrollY > 80) {
+                nav.classList.add('glass-nav', 'py-3');
+                nav.classList.remove('bg-transparent', 'py-5');
+            } else {
+                nav.classList.remove('glass-nav', 'py-3');
+                nav.classList.add('bg-transparent', 'py-5');
+            }
+
+            // Mostrar CTA sticky en móviles después del hero
+            if (window.scrollY > 600 && window.innerWidth < 768) {
+                stickyCta.classList.remove('translate-y-full');
+            } else {
+                stickyCta.classList.add('translate-y-full');
+            }
+        });
+
+        const btnMenu = document.getElementById('mobile-menu-btn');
+        const menuMobil = document.getElementById('mobile-menu');
+        btnMenu.addEventListener('click', () => {
+            menuMobil.classList.toggle('hidden');
+        });
+
+        // 4. Temporizador de Venta (Urgency Ticker)
+        function updateCountdown() {
+            const now = new Date();
+            // Simular que acaba al final del día
+            const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+            const diff = endOfDay - now;
+
+            const h = Math.floor(diff / 1000 / 60 / 60);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            
+            const timeStr = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            document.getElementById('countdown').innerText = timeStr;
+            document.getElementById('countdown2').innerText = timeStr;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 5. Animación de Números (Counters)
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; 
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 10);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        }
+        
+        // Observer para activar contadores cuando son visibles
+        const observerOptions = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        if(document.getElementById('beneficios')) {
+            observer.observe(document.getElementById('beneficios'));
+        }
+
+        // 6. IMC Avanzado
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('imc-peso').value);
+            const alturaCm = parseFloat(document.getElementById('imc-altura').value);
+            const resultDiv = document.getElementById('imc-resultado');
+            const glow = document.getElementById('imc-glow');
+            
+            if (peso > 0 && alturaCm > 0) {
+                const alturaM = alturaCm / 100;
+                const imc = (peso / (alturaM * alturaM)).toFixed(1);
+                
+                let categoria = ""; let colorClass = ""; let gradient = "";
+                let mensaje = "";
+
+                if (imc < 18.5) {
+                    categoria = "Bajo Peso"; colorClass = "text-yellow-400";
+                    gradient = "from-transparent via-yellow-400 to-transparent";
+                    mensaje = "Tu enfoque primario debe ser la ganancia de masa. El Plan Black te da acceso a zonas de hipertrofia y asesoría.";
+                } else if (imc < 24.9) {
+                    categoria = "Peso Ideal"; colorClass = "text-green-400";
+                    gradient = "from-transparent via-green-400 to-transparent";
+                    mensaje = "Excelente composición. Maximiza tu rendimiento con nuestras clases de alta intensidad y entrenamiento funcional.";
+                } else if (imc < 29.9) {
+                    categoria = "Sobrepeso"; colorClass = "text-orange-500";
+                    gradient = "from-transparent via-orange-500 to-transparent";
+                    mensaje = "Recomendamos un programa de recomposición: Déficit calórico + Entrenamiento de Fuerza + HIIT 3x semana.";
+                } else {
+                    categoria = "Obesidad"; colorClass = "text-brand-red";
+                    gradient = "from-transparent via-brand-red to-transparent";
+                    mensaje = "La constancia es clave. Comienza con rutinas de bajo impacto y apóyate en nuestro staff médico/deportivo.";
+                }
+
+                document.getElementById('imc-valor').innerText = imc;
+                document.getElementById('imc-categoria').innerText = categoria;
+                document.getElementById('imc-categoria').className = `text-lg font-black uppercase tracking-wider ${colorClass}`;
+                document.getElementById('imc-mensaje').innerText = mensaje;
+                glow.className = `absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-60 ${gradient}`;
+                
+                resultDiv.classList.remove('hidden');
+                resultDiv.classList.add('fade-in');
+            } else {
+                alert("Ingresa datos reales para un diagnóstico preciso.");
+            }
+        }
+
+        // 7. Horarios Dinámicos UI
+        const horarios = {
+            lunes: [ { hora: "06:00 AM", nombre: "Spinning", tipo: "Cardio Hit" }, { hora: "06:00 PM", nombre: "Crossfit", tipo: "Fuerza" } ],
+            martes: [ { hora: "07:00 AM", nombre: "Yoga Flow", tipo: "Movilidad" }, { hora: "07:00 PM", nombre: "Boxeo", tipo: "Combate" } ],
+            miercoles: [ { hora: "06:00 AM", nombre: "BodyPump", tipo: "Fuerza" }, { hora: "06:00 PM", nombre: "Zumba", tipo: "Baile" } ],
+            jueves: [ { hora: "07:00 AM", nombre: "TRX", tipo: "Funcional" }, { hora: "07:30 PM", nombre: "Pilates", tipo: "Core" } ],
+            viernes: [ { hora: "06:00 AM", nombre: "Crossfit", tipo: "Fuerza" }, { hora: "05:00 PM", nombre: "Rumba", tipo: "Baile" } ]
+        };
+
+        function renderClases(dia) {
+            const container = document.getElementById('lista-clases');
+            container.innerHTML = '';
+            horarios[dia].forEach((clase, index) => {
+                let badgeColor = "bg-white/10 text-white border-white/20";
+                if(clase.tipo === "Fuerza" || clase.tipo === "Combate") badgeColor = "bg-brand-red/20 text-brand-red border-brand-red/30";
+                
+                const delay = index * 100;
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center bg-[#111] p-5 rounded-2xl border border-white/5 hover:border-white/20 transition-all fade-in";
+                div.style.animationDelay = `${delay}ms`;
+                div.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-16 text-center pr-5 mr-5 border-r border-white/10">
+                            <span class="block text-xl font-black text-white tracking-tighter">${clase.hora.split(' ')[0]}</span>
+                            <span class="block text-[10px] font-bold uppercase text-gray-500">${clase.hora.split(' ')[1]}</span>
+                        </div>
+                        <div>
+                            <span class="block font-black text-white text-lg tracking-tight">${clase.nombre}</span>
+                            <span class="text-xs text-gray-500 font-medium">Coach Asignado</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="${badgeColor} border text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">${clase.tipo}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function cambiarDia(diaStr) {
+            document.querySelectorAll('.dia-btn').forEach(btn => {
+                btn.classList.remove('text-white', 'border-b-2', 'border-brand-red', 'active');
+                btn.classList.add('text-gray-600');
+            });
+            const btnActivo = event.target;
+            btnActivo.classList.remove('text-gray-600');
+            btnActivo.classList.add('text-white', 'border-b-2', 'border-brand-red', 'active');
+            renderClases(diaStr);
+        }
+        renderClases('lunes');
+
+        // 8. Lógica Modal Multipaso Pro (Corregido para 100% Funcionalidad)
+        const authModal = document.getElementById('authModal');
+        let planElegidoStr = "Plan Black"; let planPrecioStr = "$89.900";
+
+        function openAuthModal(tab = 'login', planId = null) {
+            authModal.classList.remove('hidden');
+            setTimeout(() => authModal.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden'; 
+            if(menuMobil) menuMobil.classList.add('hidden'); 
+            setAuthTab(tab);
+            if(tab === 'register' && planId) {
+                highlightPlan(planId);
+                nextStep(1); 
+            } else if (tab === 'register') {
+                 nextStep(1);
+            }
+        }
+
+        function closeAuthModal() {
+            authModal.classList.add('opacity-0');
+            setTimeout(() => authModal.classList.add('hidden'), 300);
+            document.body.style.overflow = 'auto';
+            // Reset al cerrar para que esté limpio al volver a abrir
+            setTimeout(() => {
+                document.getElementById('auth-tabs').classList.remove('hidden');
+                document.querySelector('.flex.items-center.gap-3.mb-10').classList.remove('hidden');
+            }, 300);
+        }
+
+        function setAuthTab(tab) {
+            const btnLogin = document.getElementById('tab-login');
+            const btnReg = document.getElementById('tab-register');
+            const viewLogin = document.getElementById('view-login');
+            const viewReg = document.getElementById('view-register');
+
+            if(tab === 'login') {
+                btnLogin.classList.add('text-white', 'border-white');
+                btnLogin.classList.remove('text-gray-500', 'border-transparent');
+                btnReg.classList.add('text-gray-500', 'border-transparent');
+                btnReg.classList.remove('text-brand-red', 'border-brand-red');
+                viewLogin.classList.remove('hidden'); viewReg.classList.add('hidden');
+            } else {
+                btnReg.classList.add('text-brand-red', 'border-brand-red');
+                btnReg.classList.remove('text-gray-500', 'border-transparent');
+                btnLogin.classList.add('text-gray-500', 'border-transparent');
+                btnLogin.classList.remove('text-white', 'border-white');
+                viewReg.classList.remove('hidden'); viewLogin.classList.add('hidden');
+            }
+        }
+
+        function togglePwd(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const ogText = btn.innerText;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Validando...';
+            setTimeout(() => { closeAuthModal(); btn.innerText = ogText; }, 1000);
+        }
+
+        function nextStep(step) {
+            // Validar campos del paso 1 antes de ir al 2
+            if(step === 2) {
+                const nombre = document.getElementById('reg-nombre').value;
+                const doc = document.getElementById('reg-doc').value;
+                const email = document.getElementById('reg-email').value;
+                if(!nombre || !doc || !email) {
+                    alert("Por favor completa los campos principales de tus datos para continuar.");
+                    return;
+                }
+            }
+
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('step-' + step).classList.remove('hidden');
+            
+            if(step <= 3) {
+                for(let i=1; i<=3; i++) {
+                    const barra = document.getElementById('ind-'+i);
+                    const texto = document.getElementById('text-'+i);
+                    if(i <= step) {
+                        barra.className = "h-2 w-full rounded-full transition-all duration-500 bg-brand-red shadow-[0_0_10px_rgba(230,0,0,0.5)]";
+                        texto.className = "text-[9px] font-black uppercase mt-3 block tracking-widest text-white";
+                    } else {
+                        barra.className = "h-2 w-full rounded-full transition-all duration-500 bg-white/10 shadow-none";
+                        texto.className = "text-[9px] font-bold uppercase mt-3 block tracking-widest text-gray-500";
+                    }
+                }
+            } else if (step === 4) {
+                 document.getElementById('auth-tabs').classList.add('hidden');
+                 document.querySelector('.flex.items-center.gap-3.mb-10').classList.add('hidden'); 
+            }
+        }
+
+        function highlightPlan(planVal) {
+            document.querySelectorAll('.select-plan-card').forEach(el => {
+                el.classList.remove('border-brand-red', 'bg-brand-red/5');
+                el.classList.add('border-white/10', 'bg-[#111]');
+                el.querySelector('.check-icon').classList.add('hidden');
+                el.querySelector('span.text-brand-red')?.classList.replace('text-brand-red', 'text-white');
+            });
+            const activeCard = document.getElementById('card-' + planVal);
+            activeCard.classList.remove('border-white/10', 'bg-[#111]');
+            activeCard.classList.add('border-brand-red', 'bg-brand-red/5');
+            activeCard.querySelector('.check-icon').classList.remove('hidden');
+            activeCard.querySelector('input').checked = true;
+            activeCard.querySelector('span.text-white')?.classList.replace('text-white', 'text-brand-red');
+
+            if(planVal === 'classic') { planPrecioStr = "$69.900"; planElegidoStr = "Plan Classic"; }
+            if(planVal === 'black') { planPrecioStr = "$89.900"; planElegidoStr = "Plan Black"; }
+            if(planVal === 'annual') { planPrecioStr = "$850.000"; planElegidoStr = "Pase Anual"; }
+        }
+
+        function validateStep2() {
+            const sede = document.getElementById('reg-sede').value;
+            if(!sede) { alert("Sede Base requerida para la firma de contrato."); return; }
+            document.getElementById('pago-total').innerText = planPrecioStr;
+            nextStep(3);
+        }
+
+        function processPayment() {
+            const cc = document.getElementById('cc-num').value;
+            const terms = document.getElementById('terms').checked;
+            if(cc.length < 15) { alert("Número de tarjeta inválido."); return; }
+            if(!terms) { alert("Acepta los términos para procesar el pago."); return; }
+
+            const btn = document.getElementById('btn-pay');
+            const spinner = document.getElementById('pay-spinner');
+            btn.disabled = true; spinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                const email = document.getElementById('reg-email').value || "tu correo";
+                document.getElementById('success-email').innerText = email;
+                document.getElementById('success-plan').innerText = planElegidoStr;
+                nextStep(4);
+                btn.disabled = false; spinner.classList.add('hidden');
+            }, 2500);
+        }
+
+        document.getElementById('cc-num').addEventListener('input', e => e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim());
+        document.getElementById('cc-exp').addEventListener('input', e => {
+            let val = e.target.value.replace(/[^\d]/g, '');
+            if(val.length > 2) val = val.substring(0,2) + '/' + val.substring(2);
+            e.target.value = val;
+        });
+    </script>
+</body>
+</html>
+
+
+```
